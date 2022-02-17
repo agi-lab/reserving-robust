@@ -233,7 +233,7 @@ Final.Residuals <- cbind(Final.Residuals.1, Final.Residuals.2)
 
 ### Pg. 8 Figure 3: Bagplot ====================================================
 
-pdf("images/figure3.pdf")
+pdf("images/bivar_mrfDepth_HD-1_ShBaMe12.pdf")
 
 # Create bagplot of our residuals
 bagplot1 <- bagplot(
@@ -292,7 +292,7 @@ mu <- MCD$center
 Sigma <- MCD$cov
 MD <- mahalanobis(Final.Residuals, center = mu, cov = Sigma, inverted = FALSE)
 
-pdf("images/figure4a.pdf")
+pdf("images/bivar_MCD_nonadj_ShBaMe12.pdf")
 
 # Plot the ellipse (pg 9, Figure 4(a): Tolerance Ellipses Before Adjusting Outliers)
 tolEllipsePlot(
@@ -316,7 +316,7 @@ for(q in which(MD > MD.cutoff)){
     MCD.adjusted.residuals[q, ] <- min(sqrt(MD.c/MD[q]), 1) * Final.Residuals[q, ] 
 }
 
-pdf("images/figure4b.pdf")
+pdf("images/bivar_MCD_adj_ShBaMe12.pdf")
 
 # Plot the ellipse (pg 9, Figure 4(b): Tolerance Ellipses After Adjusting Outliers)
 tolEllipsePlot(
@@ -400,7 +400,7 @@ loop.AO <- convhulln(AO.non.outliers, options = "FA")
 loophull.AO <- chull(loop.AO$p)
 baghull.AO <- chull(bag.AO$p)
 
-pdf("images/figure5a.pdf")
+pdf("images/bivar_AO-Bagplot_approach3.pdf")
 
 # Plot the bagplot and the required points
 plot(bag.points.AO, main = "Adjusted Outlyingness Bagplot", xlab = "Triangle 1", ylab = "Triangle 2", xlim = c(-200, 150), ylim = c(-200, 500))
@@ -446,7 +446,7 @@ loophull.AO.fence <- chull(loop.AO.fence$p)
 
 # Plot the bagplot with necessary points
 
-pdf("images/figure5b.pdf")
+pdf("images/bivar_AO-Bagplot_approach1.pdf")
 
 plot(bag.points.AO, main = "Adjusted Outlyingness Bagplot", xlab = "Triangle 1", ylab = "Triangle 2", xlim = c(-200, 150), ylim = c(-200, 500))
 polygon(loop.AO.fence$p[loophull.AO.fence, ], border = "black", lwd = 2, col = "light blue")
@@ -499,7 +499,7 @@ loophull.AO.mrfDepth <- chull(loop.AO.mrfDepth$p)
 # Pg.10 Figure 5(c): Adjusted-Outlyingness Bagplot using mrfDepth Cut-off Value
 ### 
 
-pdf("images/figure5c.pdf")
+pdf("images/bivar_AO-Bagplot_approach2.pdf")
 
 plot(bag.points.AO.mrfDepth, main = "Adjusted Outlyingness Bagplot", xlab = "Triangle 1", ylab = "Triangle 2", xlim = c(-300, 200), ylim = c(-200, 500))
 polygon(loop.AO.mrfDepth$p[loophull.AO.mrfDepth, ], border = "black", lwd = 2, col = "light blue")
@@ -514,7 +514,7 @@ dev.off()
 
 ### Pg.11 Figure 7: Bagdistance Illustration ===================================
 
-pdf("images/figure6.pdf")
+pdf("images/bivar_mrfDepth_bagdistance.pdf")
 
 
 bagplot1 <- bagplot(
@@ -558,7 +558,7 @@ hull.fence <- cbind(hull.fence[, 1] + Tukey.Median[1], hull.fence[, 2] + Tukey.M
 
 # Figure 7(a): Bagplot before Adjusting Outliers with Fence Drawn        
 
-pdf("images/figure7a.pdf")
+pdf("images/bivar_mrfDepth_bagplot_nonadj_fence.pdf")
 
 plot.bagplot(
     bagplot1
@@ -624,7 +624,7 @@ MCL.HD.fence <- MultiChainLadder2(
 # Figure 7(b): Bagplot After Adjusting Outliers to Fence
 # 
 
-pdf("images/figure7b.pdf")
+pdf("images/bivar_mrfDepth_bagplot_adj-fence.pdf")
 
 bagplot_fence_adjust <- bagplot(
     adj.Final.Residuals.Fence
@@ -654,7 +654,7 @@ adj.Final.Residuals.loop[fence.outliers.index, ] <- intersect[, 1:2]
 
 # Figure 9: Bagplot After Adjusting Outliers to Loop
 
-pdf("images/figure8.pdf")
+pdf("images/bivar_mrfDepth_bagplot_adj-loop.pdf")
 
 bagplot_loop_adjust <- bagplot(
     adj.Final.Residuals.loop
@@ -770,7 +770,7 @@ for(l in outliers.index){
 
 # Figure 9(a) Outliers Adjusted According to Equation (3.2)
 
-pdf("images/figure9a.pdf")
+pdf("images/bivar_bagdistance_adj1.pdf")
 
 plot.bagplot(
     bagplot1
@@ -864,7 +864,7 @@ for(l in outliers.index){
 
 # Figure 9(b) Outliers Adjusted According to Equation (3.3)
 
-pdf("images/figure9b.pdf")
+pdf("images/bivar_bagdistance_adj2.pdf")
 
 plot.bagplot(
     bagplot1
@@ -1327,7 +1327,12 @@ rownames(table4) <- c(
 table4 <- round(table4, digits = 0)
 table4
 
-# print(xtable(table1, digits = 4), file="tables/table1.txt", booktabs=T)
-# print(xtable(table2, digits = 0), file="tables/table2.txt", booktabs=T)
-# print(xtable(table3, digits = 0), file="tables/table3.txt", booktabs=T)
-# print(xtable(table4, digits = 0), file="tables/table4.txt", booktabs=T)
+# print(xtable(table1, digits = 4), file="tables/bivar_outlier-detection.txt", booktabs=T)
+# print(xtable(table2, digits = 0), file="tables/bivar_tri1-outlier-adj.txt", booktabs=T)
+# print(xtable(table3, digits = 0), file="tables/bivar_tri2-outlier-adj.txt", booktabs=T)
+# print(xtable(table4, digits = 0), file="tables/bivar_reserve-table.txt", booktabs=T)
+
+write.csv(table1, "tables/bivar_outlier-detection.csv")
+write.csv(table2, "tables/bivar_tri1-outlier-adj.csv")
+write.csv(table3, "tables/bivar_tri2-outlier-adj.csv")
+write.csv(table4, "tables/bivar_reserve-table.csv")

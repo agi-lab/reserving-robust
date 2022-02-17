@@ -9,3 +9,8 @@ This file contains the code for generating Sections 2 and 3 of the academic pape
 ## Trivariate Code and dataset
 This file contains the code for generating Sections 4 of the academic paper, showing the outlier detection and treatment for trivariate data. The data used in this section *(Trivariate Data.csv)* is synthetic and aims to simulate incremental claims from the same three lines of businesses analysed in the paper.
 
+### Creation of the Synthetic dataset
+The synthetic dataset was created by simulating:
+    - incremental claims in development year one (DY1) using three separate gamma distributions.
+    - development factors for each line of businesses to replicate the short/long tailed pattern of the three lines of businesses analysed in the paper.
+Outliers were also added to the data manually by altering some claims in DY1 and development factors for arbitrary development and accident years.

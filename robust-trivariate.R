@@ -817,7 +817,6 @@ if (graph) {
 # ### AO plots ### 
 
 # AO Plot Cutoff 1 bag
-pdf("images/trivar_AO-bagplot.pdf")
 open3d()
 rgl::rgl.viewpoint(60)
 rgl::rgl.light(120, 60)
@@ -837,10 +836,9 @@ triangles3d(x = bag.points.AO[bag.AO.surf, 1], y = bag.points.AO[bag.AO.surf, 2]
 # show axes and grid
 grid3d(c("x", "y", "z"))
 decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
-dev.off()
+rgl::rgl.snapshot("images/trivar_AO-bagplot.png")
 
 # AO plot cutoff 1 
-pdf("images/trivar_AO-bagplot-loop_approach3.pdf")
 open3d()
 rgl::rgl.viewpoint(60)
 rgl::rgl.light(120, 60)
@@ -853,10 +851,10 @@ triangles3d(x = AO.non.outliers.1[loop.AO.surf, 1], y = AO.non.outliers.1[loop.A
 
 grid3d(c("x", "y", "z"))
 decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
-dev.off()
+rgl::rgl.snapshot("images/trivar_AO-bagplot-loop_approach3.png")
+
 
 # AO Plot Cutoff 1
-pdf("images/trivar_AO-bagplot-loop.pdf")
 open3d()
 rgl::rgl.viewpoint(60)
 rgl::rgl.light(120, 60)
@@ -869,11 +867,11 @@ triangles3d(x = fence.points.AO[fence.AO.surf, 1], y = fence.points.AO[fence.AO.
 
 grid3d(c("x", "y", "z"))
 decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
-dev.off()
+rgl::rgl.snapshot("images/trivar_AO-bagplot-loop.png")
 
 
 # AO Plot Cutoff 1
-pdf("images/trivar_AO-bagplot_1-3comparison.pdf")
+rgl::rgl.snapshot("images/trivar_AO-bagplot_1-3comparison.png")
 open3d()
 rgl::rgl.viewpoint(60)
 rgl::rgl.light(120, 60)
@@ -887,11 +885,9 @@ triangles3d(x = AO.non.outliers.1[loop.AO.surf, 1], y = AO.non.outliers.1[loop.A
 
 grid3d(c("x", "y", "z"))
 decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
-dev.off()
 
 ### HD plots ###
 # set up 3d plot device
-pdf("images/trivar_HD-bag.pdf")
 open3d()
 rgl::rgl.viewpoint(60)
 rgl::rgl.light(120, 60)
@@ -911,10 +907,9 @@ triangles3d(x = bag.points.HD[bag.HD.surf, 1], y = bag.points.HD[bag.HD.surf, 2]
 # show axes and grid
 grid3d(c("x", "y", "z"))
 decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
-dev.off()
+rgl::rgl.snapshot("images/trivar_HD-bag.png")
 
 # plot points with bag, loop and fence 
-pdf("images/trivar_HD-bag-loop-fence.pdf")
 open3d()
 rgl::rgl.viewpoint(60)
 rgl::rgl.light(120, 60)
@@ -928,12 +923,11 @@ triangles3d(x = loop.points.HD[loop.HD.surf, 1], y = loop.points.HD[loop.HD.surf
 
 grid3d(c("x", "y", "z"))
 decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
-dev.off()
+rgl::rgl.snapshot("images/trivar_HD-bag-loop-fence.png")
 
 ### MD plots ###
 # MCD MD points with robust tolerance ellipse 
 # set up 3d plot device
-pdf("images/trivar_MCD-ellipse.pdf")
 open3d()
 rgl::rgl.viewpoint(60)
 rgl::rgl.light(120, 60)
@@ -948,11 +942,10 @@ plot3d(ellipse3d(sigma.r, centre = mu.r, t = sqrt(MD.cutoff)), col = "#a53900", 
 # show axes and grid
 grid3d(c("x", "y", "z"))
 decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
-dev.off()
+rgl::rgl.snapshot("images/trivar_MCD-ellipse.png")
 
 # MCD ML points with non-robust and robust tolerance ellipses 
 # set up 3d plot device
-pdf("images/trivar_MCD-ellipse_robust.pdf")
 open3d()
 rgl::rgl.viewpoint(60)
 rgl::rgl.light(120, 60)
@@ -968,6 +961,8 @@ plot3d(ellipse3d(sigma.nr, centre = mu.nr, t = sqrt(MD.cutoff)), col = "light gr
 # show axes and grid
 grid3d(c("x", "y", "z"))
 decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
+rgl::rgl.snapshot("images/trivar_MCD-ellipse_robust.png")
+
 
 }
-dev.off()
+

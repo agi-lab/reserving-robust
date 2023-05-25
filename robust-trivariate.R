@@ -9,7 +9,9 @@ library(plot3D)
 library(geometry)
 library(rgl)
 library(ptinpoly)
-library(depth)
+# library(depth)
+# Package has been archived
+library(DepthProc)
 library(MVN)
 library(mrfDepth)
 library(xtable)
@@ -189,9 +191,9 @@ trivariate.data <- read.csv("data/Trivariate Data.csv")
 
 ### Chain Ladder on original data (negatives included) ###
 # Obtain incremental claim vectors for each LOB from data (used in paper)
-Xij.LOB1 <- trivariate.data$LOB1
-Xij.LOB2 <- trivariate.data$LOB2
-Xij.LOB3 <- trivariate.data$LOB3
+Xij.LOB1 <- trivariate.data$CTP
+Xij.LOB2 <- trivariate.data$CTP.2
+Xij.LOB3 <- trivariate.data$HOME
 
 ################################################################################
 # Check for negative incremental claims in all LOBs - Negative incremental claims present in all LOBs 
@@ -442,11 +444,11 @@ AO.mrfDepth.results <- MCL_toDataframe(MCL.AO.mrfDepth)
 
 HD.Final.Residuals.All <- c()
 for(l in 1:nrow(Final.Residuals.All)){
-  HD.Final.Residuals.All[l] <- depth(u = Final.Residuals.All[l, ], x = Final.Residuals.All, approx = FALSE) * nrow(Final.Residuals.All)
+  HD.Final.Residuals.All[l] <- DepthProc::depthTukey(u = Final.Residuals.All[l, ], X = Final.Residuals.All) * nrow(Final.Residuals.All)
 }
 HD.res.summary <- cbind(Final.Residuals.All, HD.Final.Residuals.All)
 Tukey.Median <- Final.Residuals.All[which(HD.Final.Residuals.All == max(HD.Final.Residuals.All)), ] # Check there is only one value
-Tukey.Median <- colSums(Tukey.Median)
+# Tukey.Median <- colSums(Tukey.Median)
 
 # Compute the number of points greater than or equal to each unique HD value
 unique.HD <- sort(unique(HD.Final.Residuals.All))  # Ordered unique HD values
@@ -810,7 +812,7 @@ write.csv(Reserve.summary.table, "tables/trivar_reserve-table.csv")
 # ###### Graphing
 # ################################################################################
 
-graph = T
+graph = F
 
 if (graph) {
 
@@ -818,8 +820,8 @@ if (graph) {
 
 # AO Plot Cutoff 1 bag
 open3d()
-rgl::rgl.viewpoint(60)
-rgl::rgl.light(120, 60)
+rgl::view3d(60)
+rgl::light3d(120, 60)
 
 # plot non-outliers in blue, outliers in red (AO cutoff 1, used for example in the paper)
 points3d(AO.non.outliers.1, col = "blue", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
@@ -840,8 +842,8 @@ rgl::rgl.snapshot("images/trivar_AO-bagplot.png")
 
 # AO plot cutoff 1 
 open3d()
-rgl::rgl.viewpoint(60)
-rgl::rgl.light(120, 60)
+rgl::view3d(60)
+rgl::light3d(120, 60)
 
 points3d(AO.non.outliers.1, col = "blue", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
 points3d(AO.outliers.1, col = "red", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
@@ -856,8 +858,8 @@ rgl::rgl.snapshot("images/trivar_AO-bagplot-loop_approach3.png")
 
 # AO Plot Cutoff 1
 open3d()
-rgl::rgl.viewpoint(60)
-rgl::rgl.light(120, 60)
+rgl::view3d(60)
+rgl::light3d(120, 60)
 
 points3d(AO.non.outliers.1, col = "blue", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
 points3d(AO.outliers.1, col = "red", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
@@ -873,8 +875,8 @@ rgl::rgl.snapshot("images/trivar_AO-bagplot-loop.png")
 # AO Plot Cutoff 1
 rgl::rgl.snapshot("images/trivar_AO-bagplot_1-3comparison.png")
 open3d()
-rgl::rgl.viewpoint(60)
-rgl::rgl.light(120, 60)
+rgl::view3d(60)
+rgl::light3d(120, 60)
 
 points3d(AO.non.outliers.1, col = "blue", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
 points3d(AO.outliers.1, col = "red", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
@@ -889,8 +891,8 @@ decorate3d(xlab = "LOB 1", ylab = "LOB 2", zlab = "LOB 3", box = F, axes = F)
 ### HD plots ###
 # set up 3d plot device
 open3d()
-rgl::rgl.viewpoint(60)
-rgl::rgl.light(120, 60)
+rgl::view3d(60)
+rgl::light3d(120, 60)
 
 # plot non-outliers in blue, outliers in red
 points3d(HD.non.outliers, col = "blue", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
@@ -911,8 +913,8 @@ rgl::rgl.snapshot("images/trivar_HD-bag.png")
 
 # plot points with bag, loop and fence 
 open3d()
-rgl::rgl.viewpoint(60)
-rgl::rgl.light(120, 60)
+rgl::view3d(60)
+rgl::light3d(120, 60)
 
 points3d(HD.non.outliers, col = "blue", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
 points3d(HD.outliers, col = "red", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
@@ -929,8 +931,8 @@ rgl::rgl.snapshot("images/trivar_HD-bag-loop-fence.png")
 # MCD MD points with robust tolerance ellipse 
 # set up 3d plot device
 open3d()
-rgl::rgl.viewpoint(60)
-rgl::rgl.light(120, 60)
+rgl::view3d(60)
+rgl::light3d(120, 60)
 
 # plot non-outliers in blue, outliers in red (using MD cutoff)
 points3d(MD.non.outliers.r, col = "blue", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)
@@ -947,8 +949,8 @@ rgl::rgl.snapshot("images/trivar_MCD-ellipse.png")
 # MCD ML points with non-robust and robust tolerance ellipses 
 # set up 3d plot device
 open3d()
-rgl::rgl.viewpoint(60)
-rgl::rgl.light(120, 60)
+rgl::view3d(60)
+rgl::light3d(120, 60)
 
 # plot non-outliers in blue, outliers in red (using MD cutoff)
 points3d(MD.non.outliers.nr, col = "blue", alpha = 0.7, aspect = c(1, 1, 0.5), size = 5)

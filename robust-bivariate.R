@@ -292,7 +292,7 @@ mu <- MCD$center
 Sigma <- MCD$cov
 MD <- mahalanobis(Final.Residuals, center = mu, cov = Sigma, inverted = FALSE)
 
-pdf("images/bivar_MCD_nonadj_ShBaMe12.pdf")
+pdf("images/bivar_MCD_nonadj_ShBaMe12.pdf", width = 10)
 
 # Plot the ellipse (pg 9, Figure 4(a): Tolerance Ellipses Before Adjusting Outliers)
 tolEllipsePlot(
@@ -316,12 +316,12 @@ for(q in which(MD > MD.cutoff)){
     MCD.adjusted.residuals[q, ] <- min(sqrt(MD.c/MD[q]), 1) * Final.Residuals[q, ] 
 }
 
-pdf("images/bivar_MCD_adj_ShBaMe12.pdf")
+pdf("images/bivar_MCD_adj_ShBaMe12.pdf", width = 10)
 
 # Plot the ellipse (pg 9, Figure 4(b): Tolerance Ellipses After Adjusting Outliers)
 tolEllipsePlot(
     MCD.adjusted.residuals
-    , m.cov = covMcd(MCD.adjusted.residuals, alpha = 0.85, nsamp = "best")
+    , m.cov = covMcd(MCD.adjusted.residuals)
     , classic = TRUE
     , xlab = "Triangle 1"
     , ylab = "Triangle 2"

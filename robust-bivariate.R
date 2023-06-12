@@ -236,7 +236,7 @@ Final.Residuals <- cbind(Final.Residuals.1, Final.Residuals.2)
 pdf("images/bivar_mrfDepth_HD-1_ShBaMe12.pdf")
 
 # Create bagplot of our residuals
-bagplot1 <- bagplot(
+bagplot1 <- aplpack::bagplot(
     x = Final.Residuals.1
     , y = Final.Residuals.2
     , xlab = "Triangle 1"
@@ -517,7 +517,7 @@ dev.off()
 pdf("images/bivar_mrfDepth_bagdistance.pdf")
 
 
-bagplot1 <- bagplot(
+bagplot1 <- aplpack::bagplot(
     x = Final.Residuals.1
     , y = Final.Residuals.2
     , xlab = "Triangle 1"
@@ -537,7 +537,7 @@ segments(x0 = outliers1[, 1], y0 = outliers1[, 2], x1 = Tukey.Median[1], y1 = Tu
 dev.off()
 
 ### TODO: Pg 12 Figure 7 Fence, Loop Adjusted Bagplots ===============================
-bagplot1 <- bagplot(
+bagplot1 <- aplpack::bagplot(
     x = Final.Residuals.1
     , y = Final.Residuals.2
     , xlab = "Triangle 1"
@@ -626,7 +626,7 @@ MCL.HD.fence <- MultiChainLadder2(
 
 pdf("images/bivar_mrfDepth_bagplot_adj-fence.pdf")
 
-bagplot_fence_adjust <- bagplot(
+bagplot_fence_adjust <- aplpack::bagplot(
     adj.Final.Residuals.Fence
     , xlab = "Triangle 1"
     , ylab = "Triangle 2"
@@ -656,7 +656,7 @@ adj.Final.Residuals.loop[fence.outliers.index, ] <- intersect[, 1:2]
 
 pdf("images/bivar_mrfDepth_bagplot_adj-loop.pdf")
 
-bagplot_loop_adjust <- bagplot(
+bagplot_loop_adjust <- aplpack::bagplot(
     adj.Final.Residuals.loop
     , xlab = "Triangle 1"
     , ylab = "Triangle 2"

@@ -191,9 +191,9 @@ trivariate.data <- read.csv("data/Trivariate Data.csv")
 
 ### Chain Ladder on original data (negatives included) ###
 # Obtain incremental claim vectors for each LOB from data (used in paper)
-Xij.LOB1 <- trivariate.data$CTP
-Xij.LOB2 <- trivariate.data$CTP.2
-Xij.LOB3 <- trivariate.data$HOME
+Xij.LOB1 <- trivariate.data$LOB1
+Xij.LOB2 <- trivariate.data$LOB2
+Xij.LOB3 <- trivariate.data$LOB3
 
 ################################################################################
 # Check for negative incremental claims in all LOBs - Negative incremental claims present in all LOBs 
@@ -250,7 +250,7 @@ f.classic.LOB2 <- MackChainLadder(Triangle = Triangle.Cij.LOB2, est.sigma = "Mac
 f.classic.LOB3 <- MackChainLadder(Triangle = Triangle.Cij.LOB3, est.sigma = "Mack")$f
 
 # Multivariate CL analysis after setting negative incremental claims to 0 - store IBNR and S.E for three lines and total
-MCL <- MultiChainLadder2(Triangles = list(Triangle.Cij.LOB1, Triangle.Cij.LOB3, Triangle.Cij.LOB2), model = "MCL", mse.method = "Independence",
+MCL <- MultiChainLadder2(Triangles = list(Triangle.Cij.LOB1, Triangle.Cij.LOB2, Triangle.Cij.LOB3), model = "MCL", mse.method = "Independence",
                          control = systemfit::systemfit.control(methodResidCov = "Theil", maxiter = 300))
 Original.results <- MCL_toDataframe(MCL)
 
@@ -596,6 +596,7 @@ MD.cutoff <- qchisq(p = 0.975, df = 3)
 
 ### Robust method
 # Obtain the sample location vector (mu) and sample scale matrix (sigma) using the MCD technique (robust)
+set.seed(1234)
 MCD.Final.Residuals.All <- covMcd(Final.Residuals.All)
 mu.r <- MCD.Final.Residuals.All$center
 sigma.r <- MCD.Final.Residuals.All$cov
